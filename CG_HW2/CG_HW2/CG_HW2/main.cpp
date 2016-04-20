@@ -46,6 +46,7 @@ GLfloat geo_rx[5]={}, geo_ry[5]={}, geo_rz[5]={};
 // viewing matrix
 GLfloat eye_position[] = {0, 0, 10};
 GLfloat eye_displace[] = {0, 0, 0};
+GLfloat center_displace[] = {0, 0, 0};
 GLfloat center_position[] = {0, 0, 0};
 GLfloat upper_vec[] = {0, 1, 0};
 
@@ -101,6 +102,7 @@ void reset(){
 		model_info[i].external_matrix = m;
 	}
 	eye_displace[0] = eye_displace[1] = eye_displace[2] = 0;
+	center_displace[0] = center_displace[1] = center_displace[2] = 0;
 	upper_vec[0] = 0; upper_vec[1] = 1; upper_vec[2] = 0;
 
 	projection_toggle=0;
@@ -188,7 +190,7 @@ Matrix4 geoRotation(int index){
 Matrix4 viewInit(){
 	GLfloat F[3];
 	for(int i=0;i<3;i++){
-		F[i] = center_position[i] - eye_position[i] + eye_displace[i];
+		F[i] = (center_position[i] + center_displace[i]) - (eye_position[i] + eye_displace[i]);
 	}
 	glmNormalize(F);
 	GLfloat S[3];
@@ -204,9 +206,9 @@ Matrix4 viewInit(){
 							0, 0, 0, 1
 							);
 	Matrix4 posM = Matrix4(
-							1, 0, 0, -eye_position[0]+eye_displace[0],
-							0, 1, 0, -eye_position[1]+eye_displace[1],
-							0, 0, 1, -eye_position[2]+eye_displace[2],
+							1, 0, 0, -eye_position[0]-eye_displace[0],
+							0, 1, 0, -eye_position[1]-eye_displace[1],
+							0, 0, 1, -eye_position[2]-eye_displace[2],
 							0, 0, 0, 1
 						);
 	return factor * posM;
@@ -217,7 +219,7 @@ GLfloat getDistance(GLfloat *v, GLfloat *u){
 Matrix4 projectionInit(){
 	GLfloat top = 1, left = -1, bot = -1, right = 1;
 	GLfloat nearVal = 2;
-	GLfloat farVal = 40;
+	GLfloat farVal = 100;
 	if(projection_toggle == 0){	// perspective
 		return Matrix4(
 						(2*nearVal)/(right-left), 0, (right+left)/(right-left), 0,
@@ -495,7 +497,8 @@ void onMouse(int who, int state, int x, int y)
 	{
 		case GLUT_LEFT_BUTTON:   
 			printf("left button   "); 
-			mouseEvent.state = 1;
+			if(mode_state != EYE) mouseEvent.state = 1;
+			else mouseEvent.state = 3;
 			break;
 		case GLUT_MIDDLE_BUTTON: 
 			reset();
@@ -503,14 +506,25 @@ void onMouse(int who, int state, int x, int y)
 			break;
 		case GLUT_RIGHT_BUTTON:  
 			printf("right button  "); 
-			mouseEvent.state = 2;
+			if(mode_state != EYE) mouseEvent.state = 2;
+			else mouseEvent.state = 4;
 			break; 
-		case GLUT_WHEEL_UP:      
-			geo_sx[currentModel] = geo_sy[currentModel] = geo_sz[currentModel] += 0.1;
+		case GLUT_WHEEL_UP:     
+			if(mode_state != EYE){
+				geo_sx[currentModel] = geo_sy[currentModel] = geo_sz[currentModel] += 0.1;
+			}
+			else{
+				eye_displace[2] -= 0.1;
+			}
 			printf("wheel up      "); 
 			break;
-		case GLUT_WHEEL_DOWN:    
-			geo_sx[currentModel] = geo_sy[currentModel] = geo_sz[currentModel] -= 0.1;
+		case GLUT_WHEEL_DOWN:   
+			if(mode_state != EYE){
+				geo_sx[currentModel] = geo_sy[currentModel] = geo_sz[currentModel] -= 0.1;
+			}
+			else{
+				eye_displace[2] += 0.1;
+			}
 			printf("wheel down    "); 
 			break;
 		default:                 printf("0x%02X          ", who); break;
@@ -536,14 +550,29 @@ void onMouseMotion(int x, int y)
 {
 	printf("%18s(): (%d, %d) mouse move\n", __FUNCTION__, x, y);
 	if(mouseEvent.state == 1){
-		geo_tx[currentModel] += (x - mouseEvent.init_x)/200;
-		geo_ty[currentModel] -= (y - mouseEvent.init_y)/200;
+		geo_tx[currentModel] += (x - mouseEvent.init_x)/100;
+		geo_ty[currentModel] -= (y - mouseEvent.init_y)/100;
 		mouseEvent.init_x = x;
 		mouseEvent.init_y = y;
 	}
 	else if(mouseEvent.state == 2){
 		geo_ry[currentModel] += (x - mouseEvent.init_x)/200;
 		geo_rx[currentModel] += (y - mouseEvent.init_y)/200;
+		mouseEvent.init_x = x;
+		mouseEvent.init_y = y;
+	}
+	else if(mouseEvent.state == 3){
+		center_displace[0] -= (x - mouseEvent.init_x)/100;
+		eye_displace[0] -= (x - mouseEvent.init_x)/100;
+		center_displace[1] += (y - mouseEvent.init_y)/100;
+		eye_displace[1] += (y - mouseEvent.init_y)/100; 
+
+		mouseEvent.init_x = x;
+		mouseEvent.init_y = y;
+	}
+	else if(mouseEvent.state == 4){
+		eye_displace[0] -= (x - mouseEvent.init_x)/50;
+		eye_displace[1] += (y - mouseEvent.init_y)/50;
 		mouseEvent.init_x = x;
 		mouseEvent.init_y = y;
 	}
@@ -585,6 +614,7 @@ void onKeyboard(unsigned char key, int x, int y)
 			}
 			else if(mode_state == EYE){
 				eye_displace[1] += 0.5;
+				//center_displace[1] +=0.5;
 			}
 			break;
 		case 'K':	// decrease y
@@ -599,6 +629,7 @@ void onKeyboard(unsigned char key, int x, int y)
 			}
 			else if(mode_state == EYE){
 				eye_displace[1] -= 0.5;
+				//center_displace[1] -=0.5;
 			}
 			break;
 		case 'J':	// decrease x
@@ -613,6 +644,7 @@ void onKeyboard(unsigned char key, int x, int y)
 			}
 			else if(mode_state == EYE){
 				eye_displace[0] -= 0.5;
+				//center_displace[0] -=0.5;
 			}
 			break;
 		case 'L':	// increase x
@@ -627,6 +659,7 @@ void onKeyboard(unsigned char key, int x, int y)
 			}
 			else if(mode_state == EYE){
 				eye_displace[0] += 0.5;
+				//center_displace[0] +=0.5;
 			}
 			break;
 		case 'M':	// increase z
@@ -641,6 +674,7 @@ void onKeyboard(unsigned char key, int x, int y)
 			}
 			else if(mode_state == EYE){
 				eye_displace[2] += 0.5;
+				//center_displace[2] +=0.5;
 			}
 			break;
 		case 'O':	// decrease z
@@ -655,6 +689,7 @@ void onKeyboard(unsigned char key, int x, int y)
 			}
 			else if(mode_state == EYE){
 				eye_displace[2] -= 0.5;
+				//center_displace[2] -=0.5;
 			}
 			break;
 		case 'P':
@@ -668,6 +703,32 @@ void onKeyboard(unsigned char key, int x, int y)
 			break;
 		case 'Q':
 			reset();
+			break;
+		case 'H':
+			puts("Keyboard :");
+			printf("Press T to enter geometrical Translation mode.\n");
+			printf("Press R to enter geometrical Rotation mode\n");
+			puts("Press S to enter geometrical Scaling mode");
+			puts("Press E to enter eyes' position mode");
+			puts("Press L to increase x coord.");
+			puts("Press J to decrease x coord.");
+			puts("Press I to increase y coord.");
+			puts("Press K to decrease y coord.");
+			puts("Press M to increase z coord.");
+			puts("Press O to decrease z coord.");
+			puts("Press P to toggle projection mode");
+			puts("Press Q to reset ");
+			puts("Press left arrow or right arrow to change current model pointer");
+			puts("Mouse :");
+			puts("Press E/other keys(T, S, R) to switch between geometry mode and eye position mode");
+			puts("If in geometry mode,");
+			puts("Press left buuton and drag to translate current model");
+			puts("Press right button and drag to rotate current model");
+			puts("Wheel up and down to scale current model");
+			puts("If in eye position mode,");
+			puts("Press left buuton and drag to move both eye position and center position");
+			puts("Press right button and drag to move only eye position in the x and y axes");
+			puts("Wheel up and down to move eye position in the z axis");
 			break;
 	}
 	printf("\n");
