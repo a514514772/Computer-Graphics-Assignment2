@@ -107,7 +107,7 @@ void reset(){
 
 	projection_toggle=0;
 }
-Matrix4 geoInit(int index, GLfloat dx, GLfloat dy){
+Matrix4 geoInit(int index){
 		// the current center of the model we load in
 		GLfloat model_centerx = (model_info[index].maxVal[0]+model_info[index].minVal[0])/2;
 		GLfloat model_centery = (model_info[index].maxVal[1]+model_info[index].minVal[1])/2;
@@ -365,8 +365,8 @@ void onDisplay(void)
 	//MVP
 	for(int index = 0;index < 5;index++){
 
-		
-		Matrix4 M = geoInit(index, dx[(index-currentModel+5)%5], dy[(index-currentModel+5)%5]);
+		// normalize matrix
+		Matrix4 M = geoInit(index);
 		if(index == currentModel){
 			Matrix4 S = geoScaling(index);
 			Matrix4 R = geoRotation(index);
@@ -490,22 +490,22 @@ void setShaders()
 
 void onMouse(int who, int state, int x, int y)
 {
-	printf("%18s(): (%d, %d) ", __FUNCTION__, x, y);
+	//printf("%18s(): (%d, %d) ", __FUNCTION__, x, y);
 
 	GLfloat dx, dy, dz;
 	switch(who)
 	{
 		case GLUT_LEFT_BUTTON:   
-			printf("left button   "); 
+			//printf("left button   "); 
 			if(mode_state != EYE) mouseEvent.state = 1;
 			else mouseEvent.state = 3;
 			break;
 		case GLUT_MIDDLE_BUTTON: 
 			reset();
-			printf("middle button "); 
+			//printf("middle button "); 
 			break;
 		case GLUT_RIGHT_BUTTON:  
-			printf("right button  "); 
+			//printf("right button  "); 
 			if(mode_state != EYE) mouseEvent.state = 2;
 			else mouseEvent.state = 4;
 			break; 
@@ -516,7 +516,7 @@ void onMouse(int who, int state, int x, int y)
 			else{
 				eye_displace[2] -= 0.1;
 			}
-			printf("wheel up      "); 
+			//printf("wheel up      "); 
 			break;
 		case GLUT_WHEEL_DOWN:   
 			if(mode_state != EYE){
@@ -525,30 +525,30 @@ void onMouse(int who, int state, int x, int y)
 			else{
 				eye_displace[2] += 0.1;
 			}
-			printf("wheel down    "); 
+			//printf("wheel down    "); 
 			break;
-		default:                 printf("0x%02X          ", who); break;
+		//default:                 printf("0x%02X          ", who); break;
 	}
 
 	switch(state)
 	{
 		case GLUT_DOWN: 	
-			printf("start "); 
+			//printf("start "); 
 			mouseEvent.init_x = x;
 			mouseEvent.init_y = y;
 			break;
 		case GLUT_UP:   
-			printf("end   "); 
+			//printf("end   "); 
 			mouseEvent.state = 0;
 			break;
 	}
 
-	printf("\n");
+	//printf("\n");
 }
 
 void onMouseMotion(int x, int y)
 {
-	printf("%18s(): (%d, %d) mouse move\n", __FUNCTION__, x, y);
+	//printf("%18s(): (%d, %d) mouse move\n", __FUNCTION__, x, y);
 	if(mouseEvent.state == 1){
 		geo_tx[currentModel] += (x - mouseEvent.init_x)/100;
 		geo_ty[currentModel] -= (y - mouseEvent.init_y)/100;
@@ -580,7 +580,7 @@ void onMouseMotion(int x, int y)
 
 void onKeyboard(unsigned char key, int x, int y) 
 {
-	printf("%18s(): (%d, %d) key: %c(0x%02X) ", __FUNCTION__, x, y, key, key);
+	//printf("%18s(): (%d, %d) key: %c(0x%02X) ", __FUNCTION__, x, y, key, key);
 	switch(key) 
 	{
 		case GLUT_KEY_ESC: /* the Esc key */ 
@@ -735,18 +735,18 @@ void onKeyboard(unsigned char key, int x, int y)
 }
 
 void onKeyboardSpecial(int key, int x, int y){
-	printf("%18s(): (%d, %d) ", __FUNCTION__, x, y);
+	//printf("%18s(): (%d, %d) ", __FUNCTION__, x, y);
 	switch(key)
 	{
 		case GLUT_KEY_LEFT:
-			printf("key: LEFT ARROW");
+			//printf("key: LEFT ARROW");
 			currentModel -= 1;
 			if(currentModel < 0) currentModel = 4;
 			printf(" current mode : %d\n", currentModel);
 			break;
 			
 		case GLUT_KEY_RIGHT:
-			printf("key: RIGHT ARROW");
+			//printf("key: RIGHT ARROW");
 			currentModel = (currentModel+1)%5;
 			printf(" current mode : %d\n", currentModel);
 			break;
@@ -755,7 +755,7 @@ void onKeyboardSpecial(int key, int x, int y){
 			printf("key: 0x%02X      ", key);
 			break;
 	}
-	printf("\n");
+	//printf("\n");
 }
 
 

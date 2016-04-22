@@ -1,10 +1,10 @@
-﻿已經開始建置於 2016/4/20 下午 07:55:08。
-     1>節點 2 (build 目標) 上的專案 "D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\CG_HW2\CG_HW2.vcxproj"。
+﻿已經開始建置於 2016/4/23 上午 12:52:40。
+     1>節點 2 (build 目標) 上的專案 "D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\CG_HW2\CG_HW2.vcxproj"。
      1>InitializeBuildStatus:
          由於指定了 "AlwaysCreate"，因此正在建立 "Release\CG_HW2.unsuccessfulbuild"。
        ClCompile:
          所有輸出都是最新的。
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\CG_HW2\\..\..\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I"D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\CG_HW2\\..\..\include" /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
      1>main.cpp(514): warning C4305: '+=' : 從 'double' 轉換為 'GLfloat'，是由較大的型別轉換為較小的型別，可能導致資料遺失
      1>main.cpp(517): warning C4305: '-=' : 從 'double' 轉換為 'GLfloat'，是由較大的型別轉換為較小的型別，可能導致資料遺失
@@ -42,20 +42,20 @@
      1>main.cpp(685): warning C4305: '-=' : 從 'double' 轉換為 'GLfloat'，是由較大的型別轉換為較小的型別，可能導致資料遺失
      1>main.cpp(688): warning C4305: '-=' : 從 'double' 轉換為 'GLfloat'，是由較大的型別轉換為較小的型別，可能導致資料遺失
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\CG_HW2\\..\..\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\CG_HW2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.lib" /MACHINE:X86 Release\glm.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\CG_HW2\\..\..\lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\CG_HW2.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.lib" /MACHINE:X86 Release\glm.obj
          Release\main.obj
          Release\Matrices.obj
          Release\textfile.obj
          正在產生程式碼
          已完成程式碼產生
-         CG_HW2.vcxproj -> D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.exe
+         CG_HW2.vcxproj -> D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.exe
        Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.exe;#1" /manifest Release\CG_HW2.exe.intermediate.manifest
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\Release\CG_HW2.exe;#1" /manifest Release\CG_HW2.exe.intermediate.manifest
        FinalizeBuildStatus:
          正在刪除檔案 "Release\CG_HW2.unsuccessfulbuild"。
          正在變更時間戳記 "Release\CG_HW2.lastbuildstate"。
-     1>專案 "D:\Stephen\code\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\CG_HW2\CG_HW2.vcxproj" (build 目標) 建置完成。
+     1>專案 "D:\Stephen\nthu\計算機圖學\HW2\CG_HW2_framework\Computer-Graphics-Assignment2\CG_HW2\CG_HW2\CG_HW2\CG_HW2.vcxproj" (build 目標) 建置完成。
 
 建置成功。
 
-經過時間 00:00:01.49
+經過時間 00:00:00.91
